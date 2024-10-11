@@ -1,30 +1,32 @@
 package com.mainor.project21.glampingestonia.service;
 
-import ee.eek.booking.dto.CreateUserRequest;
-import ee.eek.booking.dto.UserDto;
-import ee.eek.booking.mapper.UserMapper;
-import ee.eek.booking.model.User;
-import ee.eek.booking.repository.UserRepository;
+import com.mainor.project21.glampingestonia.mapper.UserMapper;
+import com.mainor.project21.glampingestonia.model.User;
+import com.mainor.project21.glampingestonia.repository.UserRepository;
+import com.mainor.project21.glampingestonia.dto.CreateUserRequest;
+import com.mainor.project21.glampingestonia.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepository = new UserRepository();
 
-    public UserDto create(CreateUserRequest createUserRequest){
+    public UserDto create(CreateUserRequest createUserRequest) throws Exception {
         User user = UserMapper.toEntity(createUserRequest);
         return UserMapper.toDto(userRepository.save(user));
     }
 
-    public UserDto findById(Long id){
+    public UserDto findById(String id){
         User user = requireUser(id);
         return UserMapper.toDto(user);
     }
 
-    private User requireUser(Long id) {
+    private User requireUser(String id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
 }

@@ -1,8 +1,8 @@
 package com.mainor.project21.glampingestonia.mapper;
 
-import ee.eek.booking.dto.CreateUserRequest;
-import ee.eek.booking.dto.UserDto;
-import ee.eek.booking.model.User;
+import com.mainor.project21.glampingestonia.model.User;
+import com.mainor.project21.glampingestonia.dto.CreateUserRequest;
+import com.mainor.project21.glampingestonia.dto.UserDto;
 
 public class UserMapper {
 

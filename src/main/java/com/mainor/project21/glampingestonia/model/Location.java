@@ -2,13 +2,11 @@ package com.mainor.project21.glampingestonia.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table(name = "room")
-public class Room {
+public class Location {
     @Id
-    private Long id;
-    private String roomType;
+    private String id;
+    private String type;
     private double price;
 }

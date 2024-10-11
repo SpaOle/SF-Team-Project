@@ -1,7 +1,8 @@
 package com.mainor.project21.glampingestonia.web;
 
-import ee.eek.booking.dto.BookingDto;
-import ee.eek.booking.dto.CreateBookingRequest;
+import com.mainor.project21.glampingestonia.dto.BookingDto;
+import com.mainor.project21.glampingestonia.dto.CreateBookingRequest;
+import com.mainor.project21.glampingestonia.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,17 +26,17 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public BookingDto findById(@PathVariable Long id){
+    public BookingDto findById(@PathVariable String id){
         return bookingService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public BookingDto update(@PathVariable Long id, @RequestBody BookingDto request) {
+    public BookingDto update(@PathVariable String id, @RequestBody BookingDto request) {
         return bookingService.updateBooking(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable String id) {
         bookingService.delete(id);
     }
 }

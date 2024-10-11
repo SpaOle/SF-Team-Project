@@ -8,6 +8,6 @@ import java.time.LocalDate;
 public class UpdateBooking {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private Long guestId;
-    private Long roomId;
+    private String user_id;
+    private String location_id;
 }

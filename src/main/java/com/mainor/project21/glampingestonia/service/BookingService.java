@@ -1,11 +1,12 @@
 package com.mainor.project21.glampingestonia.service;
 
-import ee.eek.booking.dto.BookingDto;
-import ee.eek.booking.dto.CreateBookingRequest;
-import ee.eek.booking.mapper.BookingMapper;
-import ee.eek.booking.model.Booking;
-import ee.eek.booking.repository.BookingRepository;
+import com.mainor.project21.glampingestonia.mapper.BookingMapper;
+import com.mainor.project21.glampingestonia.model.Booking;
+import com.mainor.project21.glampingestonia.repository.BookingRepository;
+import com.mainor.project21.glampingestonia.dto.BookingDto;
+import com.mainor.project21.glampingestonia.dto.CreateBookingRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,24 +16,24 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class BookingService {
-    
-    private final BookingRepository bookingRepository;
+
+    private final BookingRepository bookingRepository = new BookingRepository();
 
     public BookingDto createBooking(CreateBookingRequest createBookingRequest){
-        Long roomId = createBookingRequest.getRoomId();
+        String locationId = createBookingRequest.getLocation_id();
         LocalDate checkInDate = createBookingRequest.getCheckInDate();
         LocalDate checkOutDate = createBookingRequest.getCheckOutDate();
-        if(isRoomAvailable(roomId,checkInDate,checkOutDate)) {
+        if(isLocationAvailable(locationId,checkInDate,checkOutDate)) {
             Booking booking = BookingMapper.toEntity(createBookingRequest);
             return BookingMapper.toDto(bookingRepository.save(booking));
         } else {
             BookingDto bookingDto = new BookingDto();
-            bookingDto.setErrorMessage("The room is not available at the specific time");
+            bookingDto.setErrorMessage("The location is not available at the specific time");
             return bookingDto;
         }
     }
 
-    public BookingDto updateBooking(Long id, BookingDto bookingDto){
+    public BookingDto updateBooking(String id, BookingDto bookingDto){
         Booking booking = BookingMapper.updateEntity(bookingDto, requireBooking(id));
         return BookingMapper.toDto(bookingRepository.save(booking));
     }
@@ -44,22 +45,22 @@ public class BookingService {
                 .toList();
     }
 
-    public BookingDto findById(Long id){
+    public BookingDto findById(String id){
         Booking booking = requireBooking(id);
         return BookingMapper.toDto(booking);
     }
 
-    public boolean isRoomAvailable(Long roomId, LocalDate checkInDate, LocalDate checkOutDate){
-        List<Booking> overlappingBookings = bookingRepository.findOverlappingBookings(roomId, checkInDate, checkOutDate);
+    public boolean isLocationAvailable(String locationId, LocalDate checkInDate, LocalDate checkOutDate){
+        List<Booking> overlappingBookings = bookingRepository.findOverlappingBookings(locationId, checkInDate, checkOutDate);
         return overlappingBookings.isEmpty();
     }
 
-    public void delete(Long id){
+    public void delete(String id){
         Booking booking = requireBooking(id);
         bookingRepository.delete(booking);
     }
 
-    private Booking requireBooking(Long id) {
+    private Booking requireBooking(String id) {
         return bookingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("booking not found"));
     }
 
