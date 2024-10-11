@@ -1,0 +1,32 @@
+package com.mainor.project21.glampingestonia.web;
+
+import ee.eek.booking.dto.CreateRoomRequest;
+import ee.eek.booking.dto.RoomDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("rooms")
+public class RoomController {
+    private final RoomService roomService;
+
+    @PostMapping
+    public RoomDto addRoom(@RequestBody CreateRoomRequest request){
+        return roomService.addRoom(request);
+    }
+
+    @GetMapping
+    public List<RoomDto> getAll(){
+        return roomService.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        roomService.delete(id);
+    }
+}
+
