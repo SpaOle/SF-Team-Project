@@ -21,12 +21,12 @@ public class UserService {
         return UserMapper.toDto(userRepository.save(user));
     }
 
-    public UserDto findById(String id){
+    public UserDto findById(String id) throws Exception {
         User user = requireUser(id);
         return UserMapper.toDto(user);
     }
 
-    private User requireUser(String id) {
+    private User requireUser(String id) throws Exception {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
 }

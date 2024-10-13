@@ -6,8 +6,6 @@ import com.mainor.project21.glampingestonia.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
@@ -21,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public UserDto getUser(@PathVariable String id){
+    public UserDto getUser(@PathVariable String id) throws Exception {
         return userService.findById(id);
     }
 
